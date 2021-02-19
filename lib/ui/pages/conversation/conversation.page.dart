@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:watson_chat/models/conversation.model.dart';
 import 'package:watson_chat/repositories/api-repository.dart';
-import 'package:watson_chat/ui/pages/conversation/components/user-message.dart';
 import 'package:watson_chat/ui/pages/conversation/conversation-presenter.dart';
 
 import './components/components.dart';
@@ -18,16 +17,14 @@ class ConversationPage extends StatefulWidget {
 class _ConversationPageState extends State<ConversationPage> {
   ApiRepository api = new ApiRepository();
 
-  ScrollController controller = new ScrollController();
-
   List<ConversationModel> conversationList = [];
   List<String> inputs = [];
   String conversationContext = "";
   ConversationModel lastConversation;
 
-  void _hideKeyBoard(){
+  void _hideKeyBoard() {
     final currentFocus = FocusScope.of(context);
-    if(!currentFocus.hasPrimaryFocus){
+    if (!currentFocus.hasPrimaryFocus) {
       currentFocus.unfocus();
     }
   }
@@ -58,14 +55,8 @@ class _ConversationPageState extends State<ConversationPage> {
               Expanded(child: Builder(
                 builder: (context) {
                   widget.presenter.conversationStream.listen((conversation) {
-                    if(lastConversation != conversation){
-                      setState(() {
-                        conversationList.add(conversation);
-                      });
-                      print(conversationList.length);
-                      for(var index in conversationList){
-                        print(index.toJson());
-                      }
+                    if (lastConversation != conversation) {
+                      conversationList.add(conversation);
                     }
                   });
 
@@ -74,22 +65,18 @@ class _ConversationPageState extends State<ConversationPage> {
                     print(input);
                   });
 
-
-                  return
-                    StreamBuilder<ConversationModel>(
-                        stream: widget.presenter.conversationStream,
-                        builder: (context, snapshot) {
-                          print('updating stream');
-                          return ListView.builder(
-                              reverse: false,
-                              controller: controller,
-                              itemCount: conversationList.length,
-                              itemBuilder: (context, index) {
-                                controller.jumpTo(controller.position.maxScrollExtent);
-                                return ChatMessage(conversationList[index],inputs[index]);
-                              });
-                        }
-                    );
+                  return StreamBuilder<ConversationModel>(
+                      stream: widget.presenter.conversationStream,
+                      builder: (context, snapshot) {
+                        print('updating stream');
+                        return ListView.builder(
+                            reverse: false,
+                            itemCount: conversationList.length,
+                            itemBuilder: (context, index) {
+                              return ChatMessage(
+                                  conversationList[index], inputs[index]);
+                            });
+                      });
                 },
               )),
               Divider(
@@ -113,4 +100,3 @@ class _ConversationPageState extends State<ConversationPage> {
 }
 
 //
-

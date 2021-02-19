@@ -32,13 +32,6 @@ class _TextComposerState extends State<TextComposer> {
             : null,
         child: Row(
           children: <Widget>[
-            Container(
-              child:
-              IconButton(icon: Icon(Icons.photo_camera),
-                  onPressed: () async {
-
-                  }),
-            ),
             Expanded(
               child: TextField(
                 controller: _textController,

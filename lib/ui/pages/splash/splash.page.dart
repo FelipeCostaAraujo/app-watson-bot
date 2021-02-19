@@ -13,8 +13,6 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     presenter.checkAccount();
-    final double height = MediaQuery.of(context).size.height * 0.3;
-    final double width = MediaQuery.of(context).size.width * 0.3;
 
     return Scaffold(
       body: Builder(
@@ -24,13 +22,7 @@ class SplashPage extends StatelessWidget {
                 Get.offAllNamed(page);
               }
             });
-            return Center(
-              child: Container(
-                  height: height,
-                  width: width,
-                  child: flareLoading()
-              ),
-            );
+            return flareLoading(context);
           }
       ),
     );
